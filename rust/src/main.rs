@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use fxhash::FxHashSet;
 use std::iter::repeat_with;
 use std::time::{Duration, Instant};
 
@@ -23,7 +23,7 @@ fn primes(n: usize) -> Vec<usize> {
 }
 
 fn goldback(n: usize) -> bool {
-    let mut set = HashSet::new();
+    let mut set = FxHashSet::default();
     let prime_list = primes(n);
     for p in &prime_list {
         set.insert(p);
@@ -65,7 +65,7 @@ mod test {
 }
 
 fn timed_run() -> Duration {
-    let upper = 1000000;
+    let upper = 1_000_000;
 
     // do the actual test and record the durations
     let start_time = Instant::now();
