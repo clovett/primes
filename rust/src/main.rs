@@ -18,14 +18,14 @@ fn primes(n: usize) -> Vec<usize> {
     result
 }
 
-fn goldback(n: usize) -> bool {
+fn goldbach(n: usize) -> bool {
     let prime_list = primes(n);
     let set = FxHashSet::from_iter(&prime_list);
 
     for i in (4..n).step_by(2) {
         let mut found = false;
-        for p in &prime_list {
-            if p > &i {
+        for &p in &prime_list {
+            if p > i {
                 break;
             } else {
                 let q = i - p;
@@ -44,7 +44,7 @@ fn goldback(n: usize) -> bool {
 
 #[cfg(test)]
 mod test {
-    use super::{goldback, primes};
+    use super::{goldbach, primes};
 
     #[test]
     fn check_primes() {
@@ -53,8 +53,8 @@ mod test {
     }
 
     #[test]
-    fn check_goldback() {
-        assert!(goldback(20))
+    fn check_goldbach() {
+        assert!(goldbach(20))
     }
 }
 
@@ -63,13 +63,13 @@ fn timed_run() -> Duration {
 
     // do the actual test and record the durations
     let start_time = Instant::now();
-    let result = goldback(upper);
+    let result = goldbach(upper);
     let stop_time = Instant::now();
 
     if result {
-        println!("Goldback conjecture holds at {upper}");
+        println!("goldbach conjecture holds at {upper}");
     } else {
-        println!("Goldback conjecture fails at {upper}");
+        println!("goldbach conjecture fails at {upper}");
     }
 
     stop_time.duration_since(start_time)
