@@ -354,3 +354,5 @@ target
 
 # macOS stuff
 .DS_Store
+
+dart/src/dart_primes.exe
