@@ -6,4 +6,4 @@ Times in milliseconds.
 
 | Platform               | C#     | Dart | Rust |
 |------------------------|--------|------|------|
-| Windows 11 AMD Ryzen 9 | 40     | 76   |      |
+| Windows 11 AMD Ryzen 9 | 40     | 76   | 62   |
