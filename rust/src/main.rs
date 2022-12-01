@@ -9,13 +9,9 @@ fn primes(n: usize) -> Vec<usize> {
     for i in 2..n {
         if bools[i] {
             result.push(i);
-            let mut j = i * i;
-            loop {
-                if j >= n {
-                    break;
-                }
+
+            for j in (i * i..n).step_by(i) {
                 bools[j] = false;
-                j += i;
             }
         }
     }
@@ -23,11 +19,8 @@ fn primes(n: usize) -> Vec<usize> {
 }
 
 fn goldback(n: usize) -> bool {
-    let mut set = FxHashSet::default();
     let prime_list = primes(n);
-    for p in &prime_list {
-        set.insert(p);
-    }
+    let set = FxHashSet::from_iter(&prime_list);
 
     for i in (4..n).step_by(2) {
         let mut found = false;
@@ -55,7 +48,8 @@ mod test {
 
     #[test]
     fn check_primes() {
-        assert_eq!(primes(20), [2, 3, 5, 7, 11, 13, 17, 19])
+        assert_eq!(primes(20), [2, 3, 5, 7, 11, 13, 17, 19]);
+        assert_eq!(primes(1_000_000).len(), 78498);
     }
 
     #[test]
@@ -82,8 +76,10 @@ fn timed_run() -> Duration {
 }
 
 fn main() {
+    const ITERATIONS: usize = 10;
+
     println!("Starting test...");
-    let total_time: Duration = repeat_with(timed_run).take(11).skip(1).sum();
+    let total_time: Duration = repeat_with(timed_run).take(ITERATIONS + 1).skip(1).sum();
     println!("Total time for 10 runs was {:?}", total_time);
-    println!("Average time per run was {:?}", total_time / 10);
+    println!("Average time per run was {:?}", total_time / ITERATIONS as u32);
 }
