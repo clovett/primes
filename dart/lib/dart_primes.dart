@@ -35,6 +35,7 @@ bool goldbach(int n) {
       }
     }
     if (!found) {
+      print("goldbach conjecture failed at $i");
       return false;
     }
   }
