@@ -39,6 +39,7 @@ class Program {
                 }
             }
             if (!found) {
+                Console.WriteLine($"goldbach conjecture failed at {i}");
                 return false;
             }
         }
@@ -49,12 +50,7 @@ class Program {
         Stopwatch watch = new Stopwatch();
         watch.Start();
         var upper = 1000000;
-        var result = goldbach(upper);
-        // if (!result) {
-        //      Console.WriteLine($"goldbach conjecture fails at {upper}");
-        // } else {
-        //      Console.WriteLine($"goldbach conjecture holds at {upper}");
-        // }
+        goldbach(upper);
         watch.Stop();
         var milliseconds = watch.ElapsedMilliseconds;
         return milliseconds;

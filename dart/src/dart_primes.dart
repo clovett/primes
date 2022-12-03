@@ -4,13 +4,7 @@ int test() {
   var upper = 1000000;
   Stopwatch watch = Stopwatch();
   watch.start();
-  var result = goldbach(upper);
-  watch.stop();
-  // if (!result) {
-  //   print("goldbach conjecture fails at ${upper}");
-  // } else {
-  //   print("goldbach conjecture holds at ${upper}");
-  // }
+  goldbach(upper);
   watch.stop();
   return watch.elapsedMilliseconds;
 }
