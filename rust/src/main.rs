@@ -2,6 +2,7 @@ use fxhash::FxHashSet;
 use std::iter::repeat_with;
 use std::time::{Duration, Instant};
 
+
 fn primes(n: usize) -> Vec<usize> {
     let mut result = Vec::new();
     let mut bools = vec![true; n];
@@ -17,6 +18,7 @@ fn primes(n: usize) -> Vec<usize> {
     }
     result
 }
+
 
 fn goldbach(n: usize) -> bool {
     let prime_list = primes(n);
