@@ -77,7 +77,6 @@ class Program {
     }
 
     static bool goldbach(ulong n) {
-       // should be 78498 primes
        List<ulong> list = new List<ulong>();
        foreach (var p in primes(n)) {
            list.Add(p);
@@ -97,19 +96,19 @@ class Program {
                }
            }
            if (!found) {
-               Console.WriteLine($"goldbach conjecture failed at {i}");
-               return false;
+               throw new Exception($"goldbach conjecture failed at {i}");
            }
        }
        return true;
     }
 
-    static long Test(ulong upper){
+    static long TestGoldbach(ulong max){
         Stopwatch watch = new Stopwatch();
         watch.Start();
-        goldbach(upper);
+        goldbach(max);
         watch.Stop();
         var milliseconds = watch.ElapsedMilliseconds;
+        Console.WriteLine($"Goldbach confirmed up to {max} in {milliseconds} ms");
         return milliseconds;
     }
 
@@ -125,24 +124,39 @@ class Program {
 
     static void Main(string[] args) {
         ulong max = 100;
-        if (args.Length > 0)
+        bool testGoldbach = false;
+        foreach (var arg in args)
         {
-            ulong.TryParse(args[0], out max);
+            if (arg.ToLowerInvariant() == "-g"){
+                testGoldbach = true;
+            } else {
+                ulong.TryParse(args[0], out max);
+            }
         }
         Stopwatch watch = new Stopwatch();
         watch.Start();
 
-        long sum = 0;
-        long count = 0;
-        for (int i = 0; i < 11; i++){
-           var ms = TestPrimes(max);
-           if (i > 0) {
-               sum += ms;
-               count++;
-           }
-        }
+        try {
+            long sum = 0;
+            long count = 0;
+            for (int i = 0; i < 11; i++){
+                long ms = 0;
+                if (testGoldbach) {
+                    ms = TestGoldbach(max);
+                }
+                else{
+                    ms = TestPrimes(max);
+                }
+            if (i > 0) {
+                sum += ms;
+                count++;
+            }
+            }
 
-        var avg = sum / count;
-        Console.WriteLine($"Average in {avg} milliseconds");
+            var avg = sum / count;
+            Console.WriteLine($"Average in {avg} milliseconds");
+        } catch (Exception ex) {
+            System.Console.WriteLine(ex.Message);
+        }
     }
 }
