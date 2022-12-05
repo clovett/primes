@@ -25,11 +25,27 @@ class Program {
         }
     }
 
+    class Wheel {
+        ulong[] values = new ulong[] { 2,4,2,4,6,2,6,4,2,4,6,6,2,6,4,2,6,4,6,8,4,2,4,2,4,8,6,4,6,2,4,6,2,6,6,4,2,4,6,2,6,4,2,4,2,10,2,10 };
+        int pos = 0;
+        public ulong Spin (){
+            if (pos >= values.Length){
+                pos = 0;
+            }
+            return values[pos++];
+        }
+    }
+
     // Return all primes up to the number 'n'.
     static IEnumerable<ulong> primes(ulong n) {
 
         PriorityQueue<MultipleGenerator, ulong> gens = new PriorityQueue<MultipleGenerator, ulong>();
-        for (ulong i = 2; i < n; i++) {
+        yield return 2;
+        yield return 3;
+        yield return 5;
+        yield return 7;
+        Wheel wheel = new Wheel();
+        for (ulong i = 11; i < n; i += wheel.Spin()) {
             bool isMultiple = false;
             while (gens.TryPeek(out MultipleGenerator g, out ulong priority))
             {
@@ -37,25 +53,25 @@ class Program {
                 {
                     break;
                 }
-                if (i == g.Next)
+                else
                 {
-                    isMultiple = true;
+                    if (i == g.Next) {
+                        isMultiple = true;
+                    }
                     var g2 = gens.Dequeue();
                     // advance!
                     g2.Advance();
                     // the sorting key has changed so re-insert it.
                     gens.Enqueue(g2, g2.Next);
                 }
-                else
-                {
-                    break;
-                }
             }
             if (!isMultiple)
             {
+                //Console.WriteLine(i);
                 yield return i;
                 var g = new MultipleGenerator(i);
                 gens.Enqueue(g, g.Next);
+
             }
         }
     }
